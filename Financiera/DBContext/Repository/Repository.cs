@@ -23,9 +23,28 @@ namespace Financiera.DBContext.Repository
             }
             return null;
 
-        }
+        }      
 
         public async Task<TEntity> GetById(int id, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var entity = await _context.Set<TEntity>().FindAsync(id);
+
+            if (entity != null)
+            {
+                if (includes != null)
+                {
+                    foreach (var include in includes)
+                    {
+                        _context.Entry(entity).Reference(include).Load();
+                    }
+                }
+                _context.Entry(entity).State = EntityState.Detached;
+            }
+            return entity;
+        }
+
+
+        public async Task<TEntity> GetById(string id, params Expression<Func<TEntity, object>>[] includes)
         {
             var query = _context.Set<TEntity>().AsQueryable();
 

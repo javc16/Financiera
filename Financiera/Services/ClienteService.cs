@@ -54,7 +54,7 @@ namespace Financiera.Services
 
         public async Task<Response> SaveCliente(ClienteDTO clienteDTO)
         {
-            var existingCliente = await _context.GetById(clienteDTO.Id);
+            var existingCliente = await _context.GetById(clienteDTO.Identificacion);
             if (_clienteDomain.DuplicateCliente(existingCliente))
             {
                 return new Response
