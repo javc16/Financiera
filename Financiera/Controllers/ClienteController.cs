@@ -45,7 +45,7 @@ namespace Financiera.Controllers
         }
 
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Response>> DeleteById(int id)
         {
             return Ok(await _clienteService.DeleteClient(id));

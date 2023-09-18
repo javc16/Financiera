@@ -62,7 +62,7 @@ namespace Financiera.Services
                 return new Response
                 {
                     Status = Constantes.Failed,
-                    Message = $"{Constantes.This} {Constantes.Cuenta} con identificacion:{accountDTO.NumeroCuenta} {Constantes.Duplicated}"
+                    Message = $"{Constantes.This} {Constantes.Cuenta} con numero de cuenta:{accountDTO.NumeroCuenta} {Constantes.Duplicated}"
                 };
             }
             
@@ -115,7 +115,7 @@ namespace Financiera.Services
                 return new Response
                 {
                     Status = Constantes.Sucess,
-                    Message = $"Cliente {currentAccount.NumeroCuenta} borrado correctamente!"
+                    Message = $"Cuenta {currentAccount.NumeroCuenta} borrado correctamente!"
                 };
             }
             return new Response

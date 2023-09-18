@@ -30,7 +30,7 @@ namespace Financiera.Services
             var cuentasReporte = ReporteCuentaDTO.FromModelToDTO(cuentas).ToList();
             foreach (var cuenta in cuentasReporte) 
             {
-                var movimientos = _movimientoContext.Find(x=>x.Cuenta.NumeroCuenta == cuenta.NumeroDeCuenta);
+                var movimientos = _movimientoContext.Find(x=>x.Cuenta.NumeroCuenta == cuenta.NumeroDeCuenta && x.Fecha>=fechaInicial && x.Fecha<=fechaFinal);
                 var movimientosReporte = ReporteMovimientosDTO.FromModelToDTO(movimientos).ToList();
                 cuenta.MovimientosCuenta = movimientosReporte;
             }

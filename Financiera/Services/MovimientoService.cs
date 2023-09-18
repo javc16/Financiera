@@ -36,7 +36,7 @@ namespace Financiera.Services
             //var existingAccount = await _context.GetById(movimientoDTO.Id);
 
             var lastUpdate = _context.Find(x => x.Cuenta.Id == movimientoDTO.CuentaId).OrderBy(x => x.Fecha).LastOrDefault();
-            var movimientoDeHoy = _context.Find(x => x.Cuenta.Id == movimientoDTO.CuentaId && x.Fecha > DateTime.Now.AddDays(-1));
+            var movimientoDeHoy = _context.Find(x => x.Cuenta.Id == movimientoDTO.CuentaId && x.Fecha > DateTime.Now.AddDays(-1) && x.Valor<0);
             var movimiento = _mapper.Map<Movimiento>(movimientoDTO);
 
             var account = _accountcontext.Find(x => x.Id == movimientoDTO.CuentaId).FirstOrDefault();

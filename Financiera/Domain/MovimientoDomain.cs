@@ -34,13 +34,17 @@ namespace Financiera.Domain
 
         public bool dailyLimit(IEnumerable<Movimiento> movimientos, float valor)
         {
-             float valorTotal = 0;
+            if (valor>0) 
+            {
+                return false;
+            }
+            float valorTotal = 0;
             foreach (var mov in movimientos) 
             {
-                valorTotal = valorTotal + mov.Valor;
+                valorTotal = valorTotal + Math.Abs(mov.Valor);
             }
 
-            if (valorTotal+valor>1000) 
+            if (valorTotal+Math.Abs(valor)>1000) 
             {
                 return true;
             }

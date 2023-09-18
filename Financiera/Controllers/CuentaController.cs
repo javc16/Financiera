@@ -43,7 +43,7 @@ namespace Financiera.Controllers
             return Ok(await _cuentaService.EditAccount(item));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Response>> DeleteById(int id)
         {
             return Ok(await _cuentaService.DeleteAccount(id));
