@@ -13,7 +13,7 @@ namespace Financiera.DBContext.Repository
         }
 
         public async Task<TEntity> GetById(int id)
-        {
+         {
             var entity = await _context.Set<TEntity>().FindAsync(id);
 
             if (entity != null)

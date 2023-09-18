@@ -17,7 +17,7 @@ namespace Financiera.Domain
 
         public bool valdiTransaction(Movimiento movimiento, MovimientoDTO movimientoDTO, Cuenta account)
         {
-            if (movimiento != null && movimiento.Saldo> movimientoDTO.Valor)
+            if (movimiento != null && movimiento.Saldo>= movimientoDTO.Valor)
             {
                 return true;
             }

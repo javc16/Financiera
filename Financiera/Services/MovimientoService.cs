@@ -47,7 +47,7 @@ namespace Financiera.Services
                 return new Response
                 {
                     Status = Constantes.Failed,
-                    Message = $"{Constantes.Movimiento} con numero de cuenta: {account.NumeroCuenta} {Constantes.invalidTransaction}",
+                    Message = $"Saldo no disponible",
                 };
             }
 

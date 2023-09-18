@@ -34,6 +34,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<ClienteService>();
 builder.Services.AddScoped<CuentaService>();
 builder.Services.AddScoped<MovimientoService>();
+builder.Services.AddScoped<ReporteService>();
 
 
 //Register Domain
