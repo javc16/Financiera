@@ -11,6 +11,7 @@ namespace Financiera.Domain
                 return true;
             }
             return false;
+
         }
     }
 }
