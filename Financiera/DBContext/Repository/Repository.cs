@@ -22,8 +22,19 @@ namespace Financiera.DBContext.Repository
                 return entity;
             }
             return null;
+        }
 
-        }      
+        public async Task<TEntity> GetById(string id)
+        {
+            var entity = await _context.Set<TEntity>().FindAsync(id);
+
+            if (entity != null)
+            {
+                _context.Entry(entity).State = EntityState.Detached;
+                return entity;
+            }
+            return null;
+        }
 
         public async Task<TEntity> GetById(int id, params Expression<Func<TEntity, object>>[] includes)
         {
@@ -46,23 +57,19 @@ namespace Financiera.DBContext.Repository
 
         public async Task<TEntity> GetById(string id, params Expression<Func<TEntity, object>>[] includes)
         {
-            var query = _context.Set<TEntity>().AsQueryable();
-
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                {
-                    query = query.Include(include);
-                }
-            }
-
-            var entity = await query.FirstOrDefaultAsync();
+            var entity = await _context.Set<TEntity>().FindAsync(id);
 
             if (entity != null)
             {
+                if (includes != null)
+                {
+                    foreach (var include in includes)
+                    {
+                        _context.Entry(entity).Reference(include).Load();
+                    }
+                }
                 _context.Entry(entity).State = EntityState.Detached;
             }
-
             return entity;
         }
 

@@ -54,8 +54,9 @@ namespace Financiera.Services
 
         public async Task<Response> SaveCliente(ClienteDTO clienteDTO)
         {
-            var existingCliente = await _context.GetById(clienteDTO.Identificacion);
-            if (_clienteDomain.DuplicateCliente(existingCliente))
+            var clientes = _context.GetAll();
+            var existingCliente = clientes.FirstOrDefault(x=>x.Identificacion.Equals(clienteDTO.Identificacion));
+            if (_clienteDomain.DuplicateCliente(existingCliente,clienteDTO))
             {
                 return new Response
                 {
@@ -63,20 +64,20 @@ namespace Financiera.Services
                     Message = $"{Constantes.This} {Constantes.Client} con identificaion:{clienteDTO.Identificacion} {Constantes.Duplicated}"                
                 };
             }
-            else
+
+
+            var cliente = _mapper.Map<Cliente>(clienteDTO);
+            var gender = _generoContext.Find(x => x.Id == clienteDTO.GeneroId).FirstOrDefault();
+            cliente.Genero = gender;
+            _context.Add(cliente);
+            _context.SaveChanges();
+            return new Response
             {
-                var cliente = _mapper.Map<Cliente>(clienteDTO);
-                var gender = _generoContext.Find(x => x.Id == clienteDTO.GeneroId).FirstOrDefault();
-                cliente.Genero = gender;
-                _context.Add(cliente);
-                _context.SaveChanges();
-                return new Response
-                {
-                    Status = Constantes.Sucess,
-                    Message = $"{Constantes.This} {Constantes.Client} {Constantes.SucefullyRegister}",
-                    Data = clienteDTO
-                };
-            }           
+                Status = Constantes.Sucess,
+                Message = $"{Constantes.This} {Constantes.Client} {Constantes.SucefullyRegister}",
+                Data = clienteDTO
+            };
+                       
         }
         public async Task<Response> EditClient(ClienteDTO clientDTO)
         {

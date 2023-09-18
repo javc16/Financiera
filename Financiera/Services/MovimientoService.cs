@@ -33,7 +33,7 @@ namespace Financiera.Services
 
         public async Task<Response> SaveMovimiento(MovimientoDTO movimientoDTO)
         {
-            var existingAccount = await _context.GetById(movimientoDTO.Id);
+            //var existingAccount = await _context.GetById(movimientoDTO.Id);
 
             var lastUpdate = _context.Find(x => x.Cuenta.Id == movimientoDTO.CuentaId).OrderBy(x => x.Fecha).LastOrDefault();
             var movimientoDeHoy = _context.Find(x => x.Cuenta.Id == movimientoDTO.CuentaId && x.Fecha > DateTime.Now.AddDays(-1));
@@ -42,7 +42,7 @@ namespace Financiera.Services
             var account = _accountcontext.Find(x => x.Id == movimientoDTO.CuentaId).FirstOrDefault();
             movimiento.Cuenta = account;
 
-            var validTransaction = _movimientoDomain.valdiTransaction(movimiento, movimientoDTO, account);
+            var validTransaction = _movimientoDomain.valdiTransaction(lastUpdate, movimientoDTO, account);
             if (!validTransaction) 
             {
                 return new Response
@@ -61,7 +61,7 @@ namespace Financiera.Services
                     Message = $"{Constantes.limitReached}",
                 };
             }
-            movimiento.Saldo = _movimientoDomain.returnSaldo(movimiento,movimientoDTO,account);
+            movimiento.Saldo = _movimientoDomain.returnSaldo(lastUpdate, movimientoDTO,account);
 
             _context.Add(movimiento);
             _context.SaveChanges();

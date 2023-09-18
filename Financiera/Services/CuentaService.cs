@@ -52,10 +52,11 @@ namespace Financiera.Services
                 Data = cuentaDTO
             };
         }
-
+    
         public async Task<Response> SaveAccount(CuentaDTO accountDTO)
         {
-            var existingAccount = await _context.GetById(accountDTO.Id);
+            var accounts = _context.GetAll();
+            var existingAccount = accounts.FirstOrDefault(c => c.NumeroCuenta == accountDTO.NumeroCuenta);
             if (_cuentaDomain.DuplicateAccount(existingAccount))
             {
                 return new Response

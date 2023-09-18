@@ -5,6 +5,8 @@ namespace Financiera.DBContext.Repository
     public interface IRepository<TEntity> where TEntity : class
     {
         Task<TEntity> GetById(int id);
+        Task<TEntity> GetById(string id);
+
         Task<TEntity> GetById(int id, params Expression<Func<TEntity, object>>[] includes);
         Task<TEntity> GetById(string id, params Expression<Func<TEntity, object>>[] includes);
 

@@ -12,16 +12,20 @@ namespace Financiera.Domain
             {
                 return movimiento.Saldo + movimientoDTO.Valor;
             }
-            return account.SaldoInicial;            
+            return account.SaldoInicial+ movimientoDTO.Valor;            
         }
 
         public bool valdiTransaction(Movimiento movimiento, MovimientoDTO movimientoDTO, Cuenta account)
         {
-            if (movimiento != null && movimiento.Saldo>= movimientoDTO.Valor)
+            if (movimientoDTO.Valor>0) 
             {
                 return true;
             }
-            else if (account.SaldoInicial> movimientoDTO.Valor) 
+            if (movimiento != null  && movimiento.Saldo>=Math.Abs(movimientoDTO.Valor))
+            {
+                return true;
+            }
+            else if (account.SaldoInicial>= Math.Abs(movimientoDTO.Valor)) 
             {
                 return true;
             }
